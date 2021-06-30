@@ -9,11 +9,11 @@ class Hunter
 	}
 
 	askOuijaQuestion() {
-		this.mentalScore -= this.gost.name === 'demon' ? 0 : 15;
+		this.mentalScore -= this.gost.name === 'Démon' ? 0 : 15;
 	}
 
 	ghostInteract() {
-		this.mentalScore -= this.gost.name === 'fantome' ? 15 : 5;
+		this.mentalScore -= this.gost.name === 'Fantôme' ? 15 : 5;
 	}
 
 	friendDeath() {

@@ -47,7 +47,9 @@ const restartEmfLoop = function() {
 
 let startGame = function() {
 	tempLoop = setInterval(function(){
-		io.emit('TEMP_UPD', game.getTemp());
+		const tmp = game.getTemp();
+		console.log('UPD_TEMP', tmp)
+		io.emit('TEMP_UPD', tmp);
 	}, 10000)
 
 	mentalLoop = setInterval(function(){
