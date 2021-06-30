@@ -1,10 +1,6 @@
-import { Game }      from 'game.model';
-import { TempCalculator } from 'tempCalculator';
-import { Hunter }         from 'hunter.model';
-import { Gost }           from 'gost.model';
-
 // Setup
-const express = require('express');
+const express  = require('express');
+const Game  = require('./game.model');
 
 const app = express();
 app.use(function(req, res, next)

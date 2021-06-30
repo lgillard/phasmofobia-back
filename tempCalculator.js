@@ -1,4 +1,4 @@
-export class TempCalculator {
+class TempCalculator {
 	static NOISE_SCALE       = 2;
 	static MAX_WITHOUT_GHOST = 17;
 	static MAX_WITH_GHOST    = 9;
@@ -34,3 +34,4 @@ export class TempCalculator {
 		return Math.round(res*10)/10;
 	}
 }
+module.exports = TempCalculator;

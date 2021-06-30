@@ -1,4 +1,4 @@
-export class EmfCalculator {
+class EmfCalculator {
 	static EMF_FREQUENCIES = [
 		8,
 		16,
@@ -41,3 +41,4 @@ export class EmfCalculator {
 		return EmfCalculator.EMF_FREQUENCIES[this.frequency] * 1000;
 	}
 }
+module.exports = EmfCalculator;

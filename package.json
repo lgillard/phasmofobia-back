@@ -1,7 +1,7 @@
 {
-	"name": "phasmophobia-back",
+	"name": "phasmofobia-back",
 	"version": "0.0.1",
-	"description": "Socket.io app for phasmophobia project",
+	"description": "Socket.io app for phasmofobia project",
 	"main": "server.js",
 	"scripts": {
 		"start": "node server.js"

@@ -1,4 +1,4 @@
-export class Hunter
+class Hunter
 {
 	constructor(name, huntingGhost)
 	{
@@ -30,3 +30,5 @@ export class Hunter
 		this.mentalScore --;
 	}
 }
+module.exports = Hunter;
+

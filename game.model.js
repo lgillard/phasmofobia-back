@@ -1,9 +1,9 @@
-import { Emf, EmfCalculator } from 'emfCalculator.model';
-import { Gost }               from 'gost.model';
-import { Hunter }         from 'hunter.model';
-import { TempCalculator } from 'tempCalculator';
+const EmfCalculator  = require('./emfCalculator.model');
+const Gost  = require('./gost.model');
+const Hunter  = require('./hunter.model');
+const TempCalculator  = require('./tempCalculator');
 
-export class Game {
+class Game {
 	static GHOST_LIST = {
 		'Esprit': new Gost('Esprit', false, true, false),
 		'Spectre': new Gost('Spectre', true, false, false),
@@ -106,3 +106,4 @@ export class Game {
 		return this.emfCalculator.getEmfTimeFrequency();
 	}
 }
+module.exports = Game;

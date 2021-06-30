@@ -1,6 +1,4 @@
-import {TempCalculator} from './tempCalculator.js';
-
-export class Gost {
+class Gost {
 	constructor(name, isCold, canWrite, isEmfMax5)  {
 		this.name = name;
 		this.isCold = isCold;
@@ -8,3 +6,5 @@ export class Gost {
 		this.isEmfMax5 = isEmfMax5;
 	}
 }
+
+module.exports = Gost;
