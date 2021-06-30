@@ -12,13 +12,9 @@ export class TempCalculator {
 		this.minTemp = isCold ? -20 : 0;
 	}
 
-	setIsPowerOff(isTurnOff) {
-		this.isPowerOff = isTurnOff;
-	}
-
 	getTemp(isGostPresent) {
 		const noise = (Math.random()*2*noiseScale) - noiseScale; // Number between [-noiseScale ; noiseScale]
-		const res = this.tempWithoutNoise + noise;
+		let res = this.tempWithoutNoise + noise;
 		if(res < this.minTemp) {
 			res = this.minTemp;
 		}
