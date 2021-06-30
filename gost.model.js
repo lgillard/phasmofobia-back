@@ -1,22 +1,10 @@
 import {TempCalculator} from './tempCalculator.js';
 
 export class Gost {
-	constructor(isCold, canWrite, isEmfMax5)  {
+	constructor(name, isCold, canWrite, isEmfMax5)  {
+		this.name = name;
 		this.isCold = isCold;
 		this.canWrite =  canWrite;
 		this.isEmfMax5 = isEmfMax5;
-		this.tempCalculator = new TempCalculator(isCold);
-	}
-
-	turnPowerOff() {
-		this.tempCalculator.setIsPowerOff(true);
-	}
-
-	turnPowerOn() {
-		this.tempCalculator.setIsPowerOff(false);
-	}
-
-	getTemp(isGostPresent) {
-		this.tempCalculator.getTemp(isGostPresent);
 	}
 }
