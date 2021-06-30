@@ -1,4 +1,5 @@
-import { Gost }           from 'gost.model';
+import { Emf, EmfCalculator } from 'emfCalculator.model';
+import { Gost }               from 'gost.model';
 import { Hunter }         from 'hunter.model';
 import { TempCalculator } from 'tempCalculator';
 
@@ -26,16 +27,26 @@ export class Game {
 		this.ghostRoom      = '';
 		this.safeZone       = '';
 		this.currentRoom    = '';
-		this.temp           = 5;
 		this.players        = [];
 	};
+
+	getMentalDecreaseInterval() {
+		return this.ghost.name === 'Yurei' ? 4000 : 6000;
+	}
 
 	groupIsInGhostRoom() {
 		return this.currentRoom === this.ghostRoom;
 	}
 
-	addPlayer(playerName) {
-		this.players.push(new Hunter(playerName, this.ghost));
+	groupisInSafeRoom() {
+		return this.currentRoom === this.safeZone;
+	}
+
+	addPlayers(createdPlayerNames) {
+		for(const playerName of createdPlayerNames)
+		{
+			this.players.push(new Hunter(playerName, this.ghost));
+		}
 	}
 
 	getTemp()
@@ -43,9 +54,15 @@ export class Game {
 		return this.tempCalculator.getTemp(this.groupIsInGhostRoom());
 	}
 
+	getEmfValue()
+	{
+		return this.emfCalculator.getEmfValue(this.groupIsInGhostRoom());
+	}
+
 	setGhost(ghostName) {
 		this.ghost = Game.GHOST_LIST[ghostName];
 		this.tempCalculator = new TempCalculator(this.ghost.isCold);
+		this.emfCalculator = new EmfCalculator(this.ghost.isEmfMax5 ? 5 : 4);
 	}
 
 	turnPowerOff() {
@@ -63,6 +80,29 @@ export class Game {
 	playerDied(playerName)
 	{
 		this.players[playerName] = undefined;
-		// TODO : call friendDeath on each living player
+		for(const player of this.players) {
+			player.friendDeath();
+		}
+	}
+
+	afraidPeople()
+	{
+		if (!this.groupisInSafeRoom())
+		{
+			for (const player of this.players)
+			{
+				player.fear(this.groupisInSafeRoom());
+			}
+		}
+	}
+
+	startHunting()
+	{
+		this.emfCalculator.startHunting();
+	}
+
+	getEmfTimeFrequency()
+	{
+		return this.emfCalculator.getEmfTimeFrequency();
 	}
 }

@@ -32,21 +32,47 @@ server.listen(port, function()
 
 
 let game = new Game();
+let tempLoop;
+let mentalLoop;
+let emfLoop;
+
+const restartEmfLoop = function() {
+	if(emfLoop !== null && emfLoop !== undefined) {
+		clearInterval(emfLoop);
+	}
+
+	emfLoop = setInterval(() => {
+		io.emit('EMF_UPD', game.getEmfValue());
+		setTimeout(()=>{
+			io.emit('EMF_UPD', '');
+		}, 2000);
+	}, game.getEmfTimeFrequency());
+}
+
+let startGame = function() {
+	tempLoop = setInterval(function(){
+		io.emit('TEMP_UPD', game.getTemp());
+	}, 10000)
+
+	mentalLoop = setInterval(function(){
+		game.afraidPeople();
+		io.emit('PLAYERS_MENTAL_UPD', game.players);
+	}, game.getMentalDecreaseInterval());
+
+	restartEmfLoop();
+};
 
 io.on('connection', function(socket)
 {
 	socket.on('PLAYERS_CREATED', createdPlayers =>
 	{
-		for(const playerName of createdPlayers) {
-			game.addPlayer(playerName);
-		}
-		io.emit('PLAYERS_CREATED', players);
+		game.addPlayers(createdPlayers);
+		io.emit('PLAYERS_CREATED', game.players);
 	});
 
 	socket.on('PLAYERS_MOVE', room =>
 	{
 		game.currentRoom = room;
-		// TODO: setIsInSafeRoom(groupIsInGhostRoom) for each users
 		io.emit('PLAYERS_MOVE', room);
 		io.emit('TEMP_UPD', game.getTemp());
 	});
@@ -61,6 +87,7 @@ io.on('connection', function(socket)
 	{
 		game.safeZone = room;
 		io.emit('SAFE_ZONE_CHOSEN', room);
+		startGame();
 	});
 
 	socket.on('GHOST_ZONE_CHOSEN', room =>
@@ -97,20 +124,22 @@ io.on('connection', function(socket)
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 
+	socket.on('HUNTING_STARTED', () => {
+		game.startHunting();
+		restartEmfLoop();
+		io.emit('PLAYERS_MENTAL_UPD', game.players);
+	});
+
+	socket.on('EMF_FREQUENCY_UPD', frequency => {
+		game.emfCalculator.emfFrequency = frequency;
+		restartEmfLoop();
+	});
+
 	socket.on('RESET_PARTY', () => {
+		clearInterval(tempLoop);
+		clearInterval(mentalLoop);
+
 		game = new Game();
 		io.emit('NEW_GAME');
 	});
 });
-
-// TODO: move that function cause will not works if variable not instantiated
-setInterval(function(){
-	temp = tempCalculator.getTemp(groupIsInGhostRoom());
-	io.emit('TEMP_UPD', temp);
-}, 30000)
-
-// TODO: move that function cause will not works if variable not instantiated
-setInterval(function(){
-	temp = tempCalculator.getTemp(groupIsInGhostRoom());
-	io.emit('TEMP_UPD', temp);
-}, ghostChosen.name === 'Yurei' ? 4000 : 6000);

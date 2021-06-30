@@ -5,11 +5,6 @@ export class Hunter
 		this.name = name;
 		this.mentalScore = 100;
 		this.gost = huntingGhost;
-		this.isInSafeRoom = true;
-	}
-
-	setIsInSafeRoom(isInSafeRoom) {
-		this.isInSafeRoom = isInSafeRoom;
 	}
 
 	askOuijaQuestion() {
@@ -32,9 +27,6 @@ export class Hunter
 	 * Mental score decrease when user is not in the safe room
 	 */
 	fear() {
-		if (!this.isInSafeRoom)
-		{
-			this.mentalScore --;
-		}
+		this.mentalScore --;
 	}
 }
