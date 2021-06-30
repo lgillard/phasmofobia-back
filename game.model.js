@@ -42,10 +42,10 @@ class Game {
 		return this.currentRoom === this.safeZone;
 	}
 
-	addPlayers(createdPlayerNames) {
-		for(const playerName of createdPlayerNames)
+	addPlayers(createdPlayer) {
+		for(const player of createdPlayer)
 		{
-			this.players.push(new Hunter(playerName, this.ghost));
+			this.players.push(new Hunter(player.name, player.color, this.ghost));
 		}
 	}
 

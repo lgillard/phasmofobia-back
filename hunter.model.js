@@ -1,10 +1,11 @@
 class Hunter
 {
-	constructor(name, huntingGhost)
+	constructor(name, color, huntingGhost)
 	{
 		this.name = name;
 		this.mentalScore = 100;
 		this.gost = huntingGhost;
+		this.color = color;
 	}
 
 	askOuijaQuestion() {
