@@ -96,6 +96,11 @@ io.on('connection', function(socket)
 		game.playerDied(playerName);
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
+
+	socket.on('RESET_PARTY', () => {
+		game = new Game();
+		io.emit('NEW_GAME');
+	});
 });
 
 // TODO: move that function cause will not works if variable not instantiated
