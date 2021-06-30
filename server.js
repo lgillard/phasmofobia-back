@@ -95,7 +95,7 @@ io.on('connection', function(socket)
 	{
 		console.log('GHOST_ZONE_CHOSEN', room);
 		game.ghostRoom = room;
-		io.emit('GOST_ZONE_CHOSEN', room);
+		io.emit('GHOST_ZONE_CHOSEN', room);
 	});
 
 	socket.on('POWER_OFF', ()=>{
