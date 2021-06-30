@@ -3,7 +3,7 @@ class EmfCalculator {
 		8,
 		16,
 		32,
-		2
+		4
 	]
 	constructor(emfMax)
 	{

@@ -41,7 +41,7 @@ const restartEmfLoop = function() {
 		io.emit('EMF_UPD', game.getEmfValue());
 		setTimeout(()=>{
 			io.emit('EMF_UPD', '');
-		}, 2000);
+		}, 4000);
 	}, game.getEmfTimeFrequency());
 }
 
