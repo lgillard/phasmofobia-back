@@ -1,4 +1,7 @@
-import {Gost} from './gost.model.js';
+import { Game }      from 'game.model';
+import { TempCalculator } from 'tempCalculator';
+import { Hunter }         from 'hunter.model';
+import { Gost }           from 'gost.model';
 
 // Setup
 const express = require('express');
@@ -27,72 +30,82 @@ server.listen(port, function()
 	console.log('Server listening at port %d', port);
 });
 
-const gosts = {
-	'Esprit': new Gost(false, true, false),
-	'Spectre': new Gost(true, false, false),
-	'Fantôme': new Gost(true, false, true),
-	'Poltergeist': new Gost(false, false, false),
-	'Banshee': new Gost(true, false, true),
-	'Revenant': new Gost(false, true, true),
-	'Ombre': new Gost(false, true, true),
-	'Djinn': new Gost(false, false, true),
-	'Cauchemar': new Gost(true, false, false),
-	'Démon': new Gost(true, true, false),
-	'Yurei': new Gost(true, true, false),
-	'Oni': new Gost(false, true, true),
-	'Yokai': new Gost(false, true, false),
-	'Hantu': new Gost(false, true, false)
-};
 
-let gostChoosen = null;
-let gostRoom = '';
-let safeZone = '';
-let currentRoom = '';
-let temp = 5;
-let users = []
+let game = new Game();
 
 io.on('connection', function(socket)
 {
-	socket.on('USERS_CREATED', createdUsers =>
+	socket.on('PLAYERS_CREATED', createdPlayers =>
 	{
-		users = createdUsers;
-		io.emit('USERS_CREATED', users);
+		for(const playerName of createdPlayers) {
+			game.addPlayer(playerName);
+		}
+		io.emit('PLAYERS_CREATED', players);
 	});
 
-	socket.on('GROUP_MOVE', room =>
+	socket.on('PLAYERS_MOVE', room =>
 	{
-		currentRoom = room;
-		io.emit('POSITION_UPD', room);
-		io.emit('TEMP_UPD', gostChoosen.getTemp(currentRoom == gostRoom));
+		game.currentRoom = room;
+		// TODO: setIsInSafeRoom(groupIsInGhostRoom) for each users
+		io.emit('PLAYERS_MOVE', room);
+		io.emit('TEMP_UPD', game.getTemp());
 	});
 
-	socket.on('GOST_CHOOSEN', gostSelected =>
+	socket.on('GHOST_CHOSEN', ghostName =>
 	{
-		gostChoosen = gostSelected;
-		io.emit('GOST_CHOOSEN', gosts[gostSelected]);
+		game.setGhost(ghostName);
+		io.emit('GHOST_CHOSEN', game.ghost);
 	});
 
-	socket.on('SAFE_ZONE_CHOOSEN', room =>
+	socket.on('SAFE_ZONE_CHOSEN', room =>
 	{
-		safeZone = room;
-		io.emit('SAFE_ZONE_CHOOSEN', room);
+		game.safeZone = room;
+		io.emit('SAFE_ZONE_CHOSEN', room);
 	});
 
-	socket.on('GOST_ZONE_CHOOSEN', room =>
+	socket.on('GHOST_ZONE_CHOSEN', room =>
 	{
-		gostRoom = room;
-		io.emit('GOST_ZONE_CHOOSEN', room);
+		game.ghostRoom = room;
+		io.emit('GOST_ZONE_CHOSEN', room);
 	});
 
 	socket.on('POWER_OFF', ()=>{
-		gostChoosen.turnPowerOff();
+		game.turnPowerOff();
 	});
 
 	socket.on('POWER_ON', ()=>{
-		gostChoosen.turnPowerOn();
+		game.turnPowerOn();
+	});
+
+	socket.on('OUIJA_INTERACT', playerName => {
+		game.getPlayer(playerName).askOuijaQuestion();
+		io.emit('PLAYERS_MENTAL_UPD', game.players);
+	});
+
+	socket.on('GHOST_INTERACT', playerName => {
+		game.getPlayer(playerName).ghostInteract();
+		io.emit('PLAYERS_MENTAL_UPD', game.players);
+	});
+
+	socket.on('TAKE_MEDICINE', playerName => {
+		game.getPlayer(playerName).takeMedicine();
+		io.emit('PLAYERS_MENTAL_UPD', game.players);
+	});
+
+	socket.on('PLAYER_DEATH', playerName => {
+		game.playerDied(playerName);
+		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 });
 
+// TODO: move that function cause will not works if variable not instantiated
 setInterval(function(){
-	io.emit('TEMP_UPD', gostChoosen.getTemp(currentRoom == gostRoom));
-}, 30)
+	temp = tempCalculator.getTemp(groupIsInGhostRoom());
+	io.emit('TEMP_UPD', temp);
+}, 30000)
+
+// TODO: move that function cause will not works if variable not instantiated
+setInterval(function(){
+	temp = tempCalculator.getTemp(groupIsInGhostRoom());
+	io.emit('TEMP_UPD', temp);
+}, ghostChosen.name === 'Yurei' ? 4000 : 6000);
