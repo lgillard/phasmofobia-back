@@ -74,12 +74,12 @@ class Game {
 	}
 
 	getPlayer(playerName) {
-		return this.players[playerName];
+		return this.players.filter(p => p.name = playerName)[0];
 	}
 
 	playerDied(playerName)
 	{
-		this.players[playerName] = undefined;
+		this.getPlayer(playerName).die();
 		for(const player of this.players) {
 			player.friendDeath();
 		}

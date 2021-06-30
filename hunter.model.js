@@ -6,6 +6,7 @@ class Hunter
 		this.mentalScore = 100;
 		this.gost = huntingGhost;
 		this.color = color;
+		this.isDead = false;
 	}
 
 	askOuijaQuestion() {
@@ -14,6 +15,10 @@ class Hunter
 
 	ghostInteract() {
 		this.mentalScore -= this.gost.name === 'Fantôme' ? 15 : 5;
+	}
+
+	die() {
+		this.isDead = true;
 	}
 
 	friendDeath() {
