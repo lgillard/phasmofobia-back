@@ -22,6 +22,9 @@ class Hunter
 
 	takeMedicine() {
 		this.mentalScore += 40;
+		if(this.mentalScore > 100) {
+			this.mentalScore = 100;
+		}
 	}
 
 	/**
