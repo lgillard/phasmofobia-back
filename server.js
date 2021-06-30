@@ -62,12 +62,15 @@ io.on('connection', function(socket)
 {
 	socket.on('PLAYERS_CREATED', createdPlayers =>
 	{
+		console.log('PLAYERS_CREATED', createdPlayers);
 		game.addPlayers(createdPlayers);
 		io.emit('PLAYERS_CREATED', game.players);
 	});
 
 	socket.on('PLAYERS_MOVE', room =>
 	{
+		console.log('PLAYERS_MOVE', room);
+
 		game.currentRoom = room;
 		io.emit('PLAYERS_MOVE', room);
 		io.emit('TEMP_UPD', game.getTemp());
@@ -75,12 +78,14 @@ io.on('connection', function(socket)
 
 	socket.on('GHOST_CHOSEN', ghostName =>
 	{
+		console.log('GHOST_CHOSEN', ghostName);
 		game.setGhost(ghostName);
 		io.emit('GHOST_CHOSEN', game.ghost);
 	});
 
 	socket.on('SAFE_ZONE_CHOSEN', room =>
 	{
+		console.log('SAFE_ZONE_CHOSEN', room);
 		game.safeZone = room;
 		io.emit('SAFE_ZONE_CHOSEN', room);
 		startGame();
@@ -88,50 +93,60 @@ io.on('connection', function(socket)
 
 	socket.on('GHOST_ZONE_CHOSEN', room =>
 	{
+		console.log('GHOST_ZONE_CHOSEN', room);
 		game.ghostRoom = room;
 		io.emit('GOST_ZONE_CHOSEN', room);
 	});
 
 	socket.on('POWER_OFF', ()=>{
+		console.log('POWER_OFF');
 		game.turnPowerOff();
 	});
 
 	socket.on('POWER_ON', ()=>{
+		console.log('POWER_ON');
 		game.turnPowerOn();
 	});
 
 	socket.on('OUIJA_INTERACT', playerName => {
+		console.log('OUIJA_INTERACT', playerName);
 		game.getPlayer(playerName).askOuijaQuestion();
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 
 	socket.on('GHOST_INTERACT', playerName => {
+		console.log('GHOST_INTERACT', playerName);
 		game.getPlayer(playerName).ghostInteract();
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 
 	socket.on('TAKE_MEDICINE', playerName => {
+		console.log('TAKE_MEDICINE', playerName);
 		game.getPlayer(playerName).takeMedicine();
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 
 	socket.on('PLAYER_DEATH', playerName => {
+		console.log('PLAYER_DEATH', playerName);
 		game.playerDied(playerName);
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 
 	socket.on('HUNTING_STARTED', () => {
+		console.log('HUNTING_STARTED');
 		game.startHunting();
 		restartEmfLoop();
 		io.emit('PLAYERS_MENTAL_UPD', game.players);
 	});
 
 	socket.on('EMF_FREQUENCY_UPD', frequency => {
+		console.log('EMF_FREQUENCY_UPD', frequency);
 		game.emfCalculator.emfFrequency = frequency;
 		restartEmfLoop();
 	});
 
 	socket.on('RESET_PARTY', () => {
+		console.log('RESET_PARTY');
 		clearInterval(tempLoop);
 		clearInterval(mentalLoop);
 
