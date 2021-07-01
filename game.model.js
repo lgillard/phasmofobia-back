@@ -74,12 +74,13 @@ class Game {
 	}
 
 	getPlayer(playerName) {
-		return this.players.filter(p => p.name = playerName)[0];
+		return this.players.filter(p => p.name === playerName)[0];
 	}
 
 	playerDied(playerName)
 	{
-		this.getPlayer(playerName).die();
+		const p = this.getPlayer(playerName);
+		p.die();
 		for(const player of this.players) {
 			player.friendDeath();
 		}

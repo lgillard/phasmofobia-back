@@ -11,10 +11,16 @@ class Hunter
 
 	askOuijaQuestion() {
 		this.mentalScore -= this.gost.name === 'Démon' ? 0 : 15;
+		if (this.mentalScore < 0) {
+			this.mentalScore = 0;
+		}
 	}
 
 	ghostInteract() {
 		this.mentalScore -= this.gost.name === 'Fantôme' ? 15 : 5;
+		if (this.mentalScore < 0) {
+			this.mentalScore = 0;
+		}
 	}
 
 	die() {
@@ -37,6 +43,9 @@ class Hunter
 	 */
 	fear() {
 		this.mentalScore --;
+		if (this.mentalScore < 0) {
+			this.mentalScore = 0;
+		}
 	}
 }
 module.exports = Hunter;
