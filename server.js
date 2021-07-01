@@ -137,6 +137,10 @@ io.on("connection", function(socket) {
 		console.log("HUNTING_STARTED");
 		game.startHunting();
 		restartEmfLoop();
+		setTimeout(() => {
+			game.emfCalculator.recupOldFrequency();
+			restartEmfLoop();
+		}, 20000);
 		io.emit("PLAYERS_MENTAL_UPD", game.players);
 	});
 

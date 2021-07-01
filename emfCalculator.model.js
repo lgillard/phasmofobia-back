@@ -12,14 +12,14 @@ class EmfCalculator {
 
 	startHunting() {
 		if (!this.isHunting) {
-			const oldEmfFrequency = this.frequency;
+			this.oldEmfFrequency = this.frequency;
 			this.frequency = 3;
 			this.isHunting = true;
-
-			setTimeout(() => {
-				this.frequency = oldEmfFrequency;
-			}, 20000);
 		}
+	}
+
+	recupOldFrequency() {
+		this.frequency = this.oldEmfFrequency;
 	}
 
 	getEmfValue(isGhostPresent) {
