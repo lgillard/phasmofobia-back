@@ -91,6 +91,7 @@ io.on('connection', function(socket)
 		game.safeZone = room;
 		game.currentRoom = room;
 		io.emit('SAFE_ZONE_CHOSEN', room);
+		io.emit('PLAYERS_MOVE', room);
 		startGame();
 	});
 
