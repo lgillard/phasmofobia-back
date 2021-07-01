@@ -48,7 +48,6 @@ const restartEmfLoop = function() {
 let startGame = function() {
 	tempLoop = setInterval(function(){
 		const tmp = game.getTemp();
-		console.log('UPD_TEMP', tmp)
 		io.emit('TEMP_UPD', tmp);
 	}, 10000)
 

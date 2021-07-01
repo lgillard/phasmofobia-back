@@ -43,6 +43,7 @@ class Game {
 	}
 
 	addPlayers(createdPlayer) {
+		this.players = [];
 		for(const player of createdPlayer)
 		{
 			this.players.push(new Hunter(player.name, player.color, this.ghost));
