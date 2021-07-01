@@ -1,7 +1,5 @@
-class Hunter
-{
-	constructor(name, color, huntingGhost)
-	{
+class Hunter {
+	constructor(name, color, huntingGhost) {
 		this.name = name;
 		this.mentalScore = 100;
 		this.gost = huntingGhost;
@@ -10,14 +8,14 @@ class Hunter
 	}
 
 	askOuijaQuestion() {
-		this.mentalScore -= this.gost.name === 'Démon' ? 0 : 15;
+		this.mentalScore -= this.gost.name === "Démon" ? 0 : 15;
 		if (this.mentalScore < 0) {
 			this.mentalScore = 0;
 		}
 	}
 
 	ghostInteract() {
-		this.mentalScore -= this.gost.name === 'Fantôme' ? 15 : 5;
+		this.mentalScore -= this.gost.name === "Fantôme" ? 15 : 5;
 		if (this.mentalScore < 0) {
 			this.mentalScore = 0;
 		}
@@ -33,7 +31,7 @@ class Hunter
 
 	takeMedicine() {
 		this.mentalScore += 40;
-		if(this.mentalScore > 100) {
+		if (this.mentalScore > 100) {
 			this.mentalScore = 100;
 		}
 	}
@@ -42,11 +40,10 @@ class Hunter
 	 * Mental score decrease when user is not in the safe room
 	 */
 	fear() {
-		this.mentalScore --;
+		this.mentalScore--;
 		if (this.mentalScore < 0) {
 			this.mentalScore = 0;
 		}
 	}
 }
 module.exports = Hunter;
-

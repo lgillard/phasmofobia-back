@@ -1,12 +1,9 @@
 class EmfCalculator {
-	static EMF_FREQUENCIES = [
-		8,
-		16,
-		32,
-		4
-	]
-	constructor(emfMax)
-	{
+	EMF_FREQUENCIES(ind) {
+		const EMF_FREQUENCIES = [8, 16, 32, 4];
+		return EMF_FREQUENCIES[ind];
+	}
+	constructor(emfMax) {
 		this.emfMax = emfMax;
 		this.frequency = 1;
 		this.emfValue = 0;
@@ -14,16 +11,14 @@ class EmfCalculator {
 	}
 
 	startHunting() {
-		if(!this.isHunting)
-		{
+		if (!this.isHunting) {
 			const oldEmfFrequency = this.frequency;
-			this.frequency     = 3;
-			this.isHunting        = true;
+			this.frequency = 3;
+			this.isHunting = true;
 
-			setTimeout(() =>
-					   {
-						   this.frequency = oldEmfFrequency;
-					   }, 20000);
+			setTimeout(() => {
+				this.frequency = oldEmfFrequency;
+			}, 20000);
 		}
 	}
 
@@ -36,9 +31,8 @@ class EmfCalculator {
 		return this.emfValue;
 	}
 
-	getEmfTimeFrequency()
-	{
-		return EmfCalculator.EMF_FREQUENCIES[this.frequency] * 1000;
+	getEmfTimeFrequency() {
+		return this.EMF_FREQUENCIES(this.frequency) * 1000;
 	}
 }
 module.exports = EmfCalculator;
