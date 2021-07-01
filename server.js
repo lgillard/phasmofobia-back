@@ -95,6 +95,12 @@ io.on('connection', function(socket)
 		startGame();
 	});
 
+	socket.on('BOOK_UPD', img =>
+	{
+		console.log('BOOK_UPD', img)
+		io.emit('BOOK_UPD', img);
+	});
+
 	socket.on('GHOST_ZONE_CHOSEN', room =>
 	{
 		console.log('GHOST_ZONE_CHOSEN', room);
