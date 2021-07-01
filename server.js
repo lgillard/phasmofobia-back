@@ -142,7 +142,7 @@ io.on("connection", function(socket) {
 
 	socket.on("EMF_FREQUENCY_UPD", frequency => {
 		console.log("EMF_FREQUENCY_UPD", frequency);
-		game.emfCalculator.emfFrequency = frequency;
+		game.emfCalculator.frequency = frequency;
 		restartEmfLoop();
 	});
 
