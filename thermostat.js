@@ -11,7 +11,7 @@ class _Thermostat {
 
 	constructor(isCold) {
 		this.isCold = isCold;
-		this.isPowerOff = false;
+		this.isPowerOff = true;
 		this.tempWithoutNoise = 2.5;
 		this.temp = this.tempWithoutNoise;
 	}
