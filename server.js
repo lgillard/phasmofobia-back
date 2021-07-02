@@ -106,7 +106,7 @@ io.on("connection", function(socket) {
 		restartGameLoop();
 		console.log("GHOST_CHOSEN", ghostName);
 		game.setGhost(ghostName);
-		io.emit("GHOST_CHOSEN", game.ghost);
+		socket.emit("GHOST_CHOSEN", game.ghost);
 	});
 
 	socket.on("SAFE_ZONE_CHOSEN", room => {
