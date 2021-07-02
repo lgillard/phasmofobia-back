@@ -31,6 +31,7 @@ let tempLoop;
 let mentalLoop;
 let emfLoop;
 let gameLoop;
+let isStarted = false;
 
 const restartEmfLoop = function () {
   if (emfLoop !== null && emfLoop !== undefined) {
@@ -82,11 +83,14 @@ let startGame = function () {
 
   restartEmfLoop();
   restartGameLoop();
-  io.emit("PARTY_START");
+	isStarted = true;
+	io.emit("PARTY_START");
 };
 
 io.on("connection", function (socket) {
-  socket.on("PLAYERS_CREATED", (createdPlayers) => {
+	if(isStarted){io.emit("PARTY_START");}
+
+	socket.on("PLAYERS_CREATED", (createdPlayers) => {
     restartGameLoop();
     console.log("PLAYERS_CREATED", createdPlayers);
     game.addPlayers(createdPlayers);
