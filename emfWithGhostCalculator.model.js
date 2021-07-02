@@ -4,7 +4,7 @@ class EmfWithGhostCalculator {
     return EMF_FREQUENCIES[ind];
   }
   constructor(emfMax) {
-    this.emfMax = emfMax;
+    this.emfMax = emfMax - 1;
     this.frequency = 1;
     this.emfValue = 0;
     this.isHunting = false;
@@ -24,7 +24,7 @@ class EmfWithGhostCalculator {
   }
 
   getEmfValue() {
-    this.emfValue = Math.round(Math.random() * this.emfMax);
+    this.emfValue = Math.round(Math.random() * this.emfMax) + 1;
     return this.emfValue;
   }
 

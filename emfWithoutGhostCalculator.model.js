@@ -1,6 +1,6 @@
 class EmfWithoutGhostCalculator {
   constructor(emfMax) {
-    this.emfMax = emfMax;
+    this.emfMax = emfMax - 1;
     this.emfValue = 0;
     this.isHunting = false;
   }
@@ -13,9 +13,9 @@ class EmfWithoutGhostCalculator {
 
   getEmfValue() {
     if (this.isHunting) {
-      this.emfValue = Math.round(Math.random() * this.emfMax);
+      this.emfValue = Math.round(Math.random() * this.emfMax) + 1;
     } else {
-      this.emfValue = 0;
+      this.emfValue = '';
     }
     return this.emfValue;
   }
