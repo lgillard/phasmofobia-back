@@ -1,4 +1,4 @@
-class EmfCalculator {
+class EmfWithGhostCalculator {
   EMF_FREQUENCIES(ind) {
     const EMF_FREQUENCIES = [32, 16, 8, 4];
     return EMF_FREQUENCIES[ind];
@@ -20,14 +20,11 @@ class EmfCalculator {
 
   recupOldFrequency() {
     this.frequency = this.oldEmfFrequency;
+    this.isHunting = false;
   }
 
-  getEmfValue(isGhostPresent) {
-    if (this.isHunting || isGhostPresent) {
-      this.emfValue = Math.round(Math.random() * this.emfMax);
-    } else {
-      this.emfValue = 0;
-    }
+  getEmfValue() {
+    this.emfValue = Math.round(Math.random() * this.emfMax);
     return this.emfValue;
   }
 
@@ -35,4 +32,4 @@ class EmfCalculator {
     return this.EMF_FREQUENCIES(this.frequency) * 1000;
   }
 }
-module.exports = EmfCalculator;
+module.exports = EmfWithGhostCalculator;

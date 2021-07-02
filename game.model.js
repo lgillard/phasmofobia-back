@@ -1,4 +1,5 @@
-const EmfCalculator = require("./emfCalculator.model");
+const EmfWithGhostCalculator = require("./emfWithGhostCalculator.model");
+const EmfWithoutGhostCalculator = require("./emfWithoutGhostCalculator.model");
 const Gost = require("./gost.model");
 const Hunter = require("./hunter.model");
 const ThermostatWithGhost = require("./thermostat-with-ghost");
@@ -59,14 +60,15 @@ class Game {
 	}
 
 	getEmfValue() {
-		return this.emfCalculator.getEmfValue(this.groupIsInGhostRoom());
+		return this.groupIsInGhostRoom() ? this.emfWithGhostCalculator.getEmfValue() : this.emfWithoutGhostCalculator.getEmfValue();
 	}
 
 	setGhost(ghostName) {
-		this.ghost                   = this.getGost(ghostName);
-		this.tempWithGhostCalculator = new ThermostatWithGhost(this.ghost.isCold);
+		this.ghost                      = this.getGost(ghostName);
+		this.tempWithGhostCalculator    = new ThermostatWithGhost(this.ghost.isCold);
 		this.tempWithoutGhostCalculator = new ThermostatWithoutGhost(this.ghost.isCold);
-		this.emfCalculator           = new EmfCalculator(this.ghost.isEmfMax5 ? 5 : 4);
+		this.emfWithGhostCalculator     = new EmfWithGhostCalculator(this.ghost.isEmfMax5 ? 5 : 4);
+		this.emfWithoutGhostCalculator  = new EmfWithoutGhostCalculator(this.ghost.isEmfMax5 ? 5 : 4);
 	}
 
 	turnPowerOff() {
@@ -100,11 +102,17 @@ class Game {
 	}
 
 	startHunting() {
-		this.emfCalculator.startHunting();
+		this.emfWithGhostCalculator.startHunting();
+		this.emfWithoutGhostCalculator.startHunting();
+	}
+
+	stopHunting() {
+		this.emfWithGhostCalculator.recupOldFrequency()
+		this.emfWithoutGhostCalculator.isHunting = false;
 	}
 
 	getEmfTimeFrequency() {
-		return this.emfCalculator.getEmfTimeFrequency();
+		return this.emfWithGhostCalculator.getEmfTimeFrequency();
 	}
 }
 module.exports = Game;

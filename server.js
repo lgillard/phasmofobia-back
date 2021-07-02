@@ -182,7 +182,7 @@ io.on("connection", function (socket) {
     game.startHunting();
     restartEmfLoop();
     setTimeout(() => {
-      game.emfCalculator.recupOldFrequency();
+      game.stopHunting();
       restartEmfLoop();
     }, 60000);
     io.emit("PLAYERS_MENTAL_UPD", game.players);
@@ -191,7 +191,7 @@ io.on("connection", function (socket) {
   socket.on("EMF_FREQUENCY_UPD", (frequency) => {
     restartGameLoop();
     console.log("EMF_FREQUENCY_UPD", frequency);
-    game.emfCalculator.frequency = frequency;
+    game.emfWithGhostCalculator.frequency = frequency;
     restartEmfLoop();
   });
 
