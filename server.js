@@ -196,6 +196,7 @@ io.on("connection", function (socket) {
   });
 
   socket.on("OUIJA_UPD", (txt) => {
+    console.log("OUIJA_UPD", txt);
     io.emit("OUIJA_UPD", txt);
   });
 
