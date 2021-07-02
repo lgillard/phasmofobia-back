@@ -73,7 +73,7 @@ let startGame = function() {
 	tempLoop = setInterval(function() {
 		const tmp = game.getTemp();
 		io.emit("TEMP_UPD", tmp);
-	}, 10000);
+	}, 6000);
 
 	mentalLoop = setInterval(function() {
 		game.afraidPeople();
