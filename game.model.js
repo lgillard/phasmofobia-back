@@ -1,7 +1,8 @@
 const EmfCalculator = require("./emfCalculator.model");
 const Gost = require("./gost.model");
 const Hunter = require("./hunter.model");
-const TempCalculator = require("./tempCalculator");
+const ThermostatWithGhost = require("./thermostat-with-ghost");
+const ThermostatWithoutGhost = require("./thermostat-without-ghost");
 
 class Game {
 	getGost(gostName) {
@@ -25,12 +26,13 @@ class Game {
 	}
 
 	constructor() {
-		this.ghost = null;
-		this.tempCalculator = null;
-		this.ghostRoom = "";
-		this.safeZone = "";
-		this.currentRoom = "";
-		this.players = [];
+		this.ghost                   = null;
+		this.tempWithGhostCalculator = null;
+		this.tempWithoutGhostCalculator = null;
+		this.ghostRoom               = "";
+		this.safeZone                = "";
+		this.currentRoom             = "";
+		this.players                 = [];
 	}
 
 	getMentalDecreaseInterval() {
@@ -53,7 +55,7 @@ class Game {
 	}
 
 	getTemp() {
-		return this.tempCalculator.getTemp(this.groupIsInGhostRoom());
+		return this.groupIsInGhostRoom()? this.tempWithGhostCalculator.getTemp() : this.tempWithoutGhostCalculator.getTemp();
 	}
 
 	getEmfValue() {
@@ -61,17 +63,20 @@ class Game {
 	}
 
 	setGhost(ghostName) {
-		this.ghost = this.getGost(ghostName);
-		this.tempCalculator = new TempCalculator(this.ghost.isCold);
-		this.emfCalculator = new EmfCalculator(this.ghost.isEmfMax5 ? 5 : 4);
+		this.ghost                   = this.getGost(ghostName);
+		this.tempWithGhostCalculator = new ThermostatWithGhost(this.ghost.isCold);
+		this.tempWithoutGhostCalculator = new ThermostatWithoutGhost(this.ghost.isCold);
+		this.emfCalculator           = new EmfCalculator(this.ghost.isEmfMax5 ? 5 : 4);
 	}
 
 	turnPowerOff() {
-		this.tempCalculator.isPowerOff = true;
+		this.tempWithGhostCalculator.isPowerOff = true;
+		this.tempWithoutGhostCalculator.isPowerOff = true;
 	}
 
 	turnPowerOn() {
-		this.tempCalculator.isPowerOff = false;
+		this.tempWithGhostCalculator.isPowerOff = false;
+		this.tempWithoutGhostCalculator.isPowerOff = false;
 	}
 
 	getPlayer(playerName) {
