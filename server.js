@@ -195,6 +195,10 @@ io.on("connection", function (socket) {
     restartEmfLoop();
   });
 
+  socket.on("OUIJA_UPD", (txt) => {
+    io.emit("OUIJA_UPD", txt);
+  });
+
   socket.on("RESET_PARTY", () => {
     restartGameLoop();
     console.log("RESET_PARTY");
