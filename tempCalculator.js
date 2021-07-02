@@ -34,6 +34,11 @@ class TempCalculator {
     }
     this.temp = res;
     this.tempWithoutNoise += this.isPowerOff ? -1 : 1; // Manage increment or decrement
+    if (this.tempWithoutNoise < 0) {
+      this.tempWithoutNoise = 0;
+    } else if (this.tempWithoutNoise > 17) {
+      this.tempWithoutNoise = 17;
+    }
 
     return Math.round(res * 10) / 10;
   }
