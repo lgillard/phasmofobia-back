@@ -82,6 +82,7 @@ let startGame = function() {
 
 	restartEmfLoop();
 	restartGameLoop();
+	io.emit("PARTY_START");
 };
 
 io.on("connection", function(socket) {
