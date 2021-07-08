@@ -37,7 +37,7 @@ class Game {
 	}
 
 	getMentalDecreaseInterval() {
-		return this.ghost.name === "Yurei" ? 4000 : 6000;
+		return this.ghost.name === "Yurei" ? 7000 : 10000;
 	}
 
 	groupIsInGhostRoom() {
